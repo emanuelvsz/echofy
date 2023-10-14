@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 5rem;
+}
+
+.title {
+    font-family: sans-serif;
+    margin-bottom: 2rem;
+}
+
+.button {
+    background-color: #47cf73; 
+    color: #fff; 
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;  
+    width: 15rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+}
+
+.button > p{
+   font-size: medium; 
+}
+  
+.button:hover {
+transition: 1s;
+background-color: #41bc68;
+}
+  
