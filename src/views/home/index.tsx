@@ -22,7 +22,6 @@ function HomePage() {
   return (
     <div className="body">
       <Header userData={userData} />
-      <button onClick={handleClick}>Testar</button>
     </div>
   );
 }
