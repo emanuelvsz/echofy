@@ -1,16 +1,21 @@
 import React from 'react';
 import './styles.css';
 import Header from '../../components/header/header';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-  const handleSpotifyLogin = () => {
-    const spotifyAuthUrl = 'https://accounts.spotify.com/authorize?client_id=SEU_CLIENT_ID&redirect_uri=SEU_REDIRECT_URI&scope=user-read-private&response_type=token&state=SEU_ESTADO';
-    
-    window.location.href = spotifyAuthUrl;
+  const navigate = useNavigate();
+  const handleSpotifyLogin = async () => {
+    const response = await fetch('http://localhost:8000/api/anonymous/authenticate');
+    const data = await response.json();
+    const redirectUrl = data.redirect_url;
+    console.log(redirectUrl)
+
+    window.location.href = redirectUrl;
   };
 
   return (
-    <body className="body">
+    <div className="body">
       <Header />
       <div className="card">
         <h1 className="title">Try Echofy for free</h1>
@@ -18,7 +23,7 @@ function LoginPage() {
           <p>Login with Spotify</p>
         </button>
       </div>
-    </body>
+    </div>
   );
 }
 
