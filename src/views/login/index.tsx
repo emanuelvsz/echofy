@@ -1,16 +1,12 @@
 import React from 'react';
 import './styles.css';
 import Header from '../../components/header/header';
-import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-  const navigate = useNavigate();
   const handleSpotifyLogin = async () => {
-    const response = await fetch('http://localhost:8000/api/anonymous/authenticate');
+    const response = await fetch('http://localhost:8001/api/anonymous/authenticate');
     const data = await response.json();
     const redirectUrl = data.redirect_url;
-    console.log(redirectUrl)
-
     window.location.href = redirectUrl;
   };
 
