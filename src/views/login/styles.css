@@ -4,16 +4,25 @@
     box-sizing: border-box;
 }
 
-.screen {
+.body {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 5rem;
+    height: 100vh;
+    background: linear-gradient(to bottom, #4E3752, #0e0e0e);
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .title {
     font-family: sans-serif;
+    color: #FFFFFF;
     margin-bottom: 2rem;
 }
 
