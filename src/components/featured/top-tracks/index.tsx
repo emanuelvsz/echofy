@@ -2,69 +2,34 @@
 
 import { useState } from "react";
 import { Trophy, Play } from "lucide-react";
-import Image from "next/image"; 
-import { TopHitsData, Period, Track } from "@/src/models";
-
-const DATA: TopHitsData = {
-  week: [
-    {
-      id: 1,
-      title: "Not Like Us",
-      artist: "Kendrick Lamar",
-      plays: "142",
-      cover: "https://i.scdn.co/image/ab67616d0000b2731ea0c62b2339cbf493a999ad",
-    },
-    {
-      id: 2,
-      title: "Espresso",
-      artist: "Sabrina Carpenter",
-      plays: "98",
-      cover: "https://i.scdn.co/image/ab67616d0000b273659cd4673230913b3918e0d5",
-    },
-    {
-      id: 3,
-      title: "Million Dollar Baby",
-      artist: "Tommy Richman",
-      plays: "85",
-      cover: "https://i.scdn.co/image/ab67616d0000b273210733c8f23a7172e6ef5705",
-    },
-  ],
-  month: [
-    {
-      id: 1,
-      title: "Euphoria",
-      artist: "Kendrick Lamar",
-      plays: "520",
-      cover: "https://i.scdn.co/image/ab67616d0000b2737587213b1be294ac4000f648",
-    },
-    {
-      id: 2,
-      title: "Pink+White",
-      artist: "Frank Ocean",
-      plays: "410",
-      cover: "https://i.scdn.co/image/ab67616d0000b273c5649add07ed3720be9d5526",
-    },
-  ],
-  year: [
-    {
-      id: 1,
-      title: "Starboy",
-      artist: "The Weeknd",
-      plays: "2.4k",
-      cover: "https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452",
-    },
-    {
-      id: 2,
-      title: "Blinding Lights",
-      artist: "The Weeknd",
-      plays: "1.9k",
-      cover: "https://upload.wikimedia.org/wikipedia/en/e/e6/The_Weeknd_-_Blinding_Lights.png",
-    },
-  ],
-};
+import Image from "next/image";
+import { Period, Track } from "@/src/models";
+import useTopTracks from "@/src/lib/hooks/track/use-top-tracks";
+import Button from "../../ui/button";
 
 export default function TopTracks() {
   const [period, setPeriod] = useState<Period>("week");
+
+  // Consumindo os dados do TanStack Query
+  const { data: topTracks, isLoading, isError } = useTopTracks();
+
+  // Estado de carregamento (Skeleton simples)
+  if (isLoading) {
+    return (
+      <div className="md:col-span-2 bg-zinc-900 rounded-[2.5rem] p-8 border border-white/5 h-[600px] animate-pulse" />
+    );
+  }
+
+  // Estado de erro ou sem dados
+  if (isError || !topTracks) {
+    return (
+      <div className="md:col-span-2 bg-zinc-900 rounded-[2.5rem] p-8 border border-white/5 flex items-center justify-center">
+        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">
+          Erro ao carregar ranking
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="md:col-span-2 bg-zinc-900 rounded-[2.5rem] p-8 border border-white/5 flex flex-col h-full shadow-2xl">
@@ -75,23 +40,22 @@ export default function TopTracks() {
 
         <div className="flex bg-black/40 p-1 rounded-full border border-white/5">
           {(["week", "month", "year"] as const).map((p) => (
-            <button
+            <Button
               key={p}
+              variant="toggle"
+              size="sm"
+              isActive={period === p}
               onClick={() => setPeriod(p)}
-              className={`px-4 py-1.5 rounded-full text-[10px] uppercase tracking-tighter font-black transition-all ${
-                period === p
-                  ? "bg-white text-black"
-                  : "text-gray-500 hover:text-white"
-              }`}
             >
               {p === "week" ? "Semana" : p === "month" ? "Mês" : "Ano"}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       <div className="space-y-4 flex-1">
-        {DATA[period].map((track: Track, i: number) => (
+        {/* Agora mapeamos 'topTracks' que vem da API */}
+        {topTracks[period]?.map((track: Track, i: number) => (
           <div
             key={track.id}
             className="flex items-center justify-between group cursor-pointer p-2 rounded-2xl hover:bg-white/5 transition-all"
@@ -137,9 +101,9 @@ export default function TopTracks() {
         ))}
       </div>
 
-      <button className="mt-6 w-full py-4 bg-zinc-800/50 border border-white/5 rounded-2xl text-[10px] uppercase tracking-[0.2em] font-black hover:bg-white hover:text-black transition-all text-gray-400">
+      <Button variant="report" fullWidth className="mt-6 text-[10px]">
         Ver Relatório Completo
-      </button>
+      </Button>
     </div>
   );
 }

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Music, Users, Calendar } from "lucide-react";
-import StatCard from "../components/stat-card";
-import TopTracks from "../components/top-tracks";
-import { FriendActivity } from "../components/friend-activity";
-import Header from "../components/header";
-import TopArtist from "../components/top-artist";
-import LoginView from "../components/login-view";
+import StatCard from "../components/ui/stat-card";
+import TopTracks from "../components/featured/top-tracks";
+import Header from "../components/layout/header";
+import TopArtist from "../components/featured/top-artist";
+import LoginView from "../components/auth/login-view";
+import Footer from "../components/layout/footer";
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -64,8 +64,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        <FriendActivity />
+        {/* <FriendActivity /> */}
       </div>
+      <Footer />
     </main>
   );
 }
