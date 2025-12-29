@@ -2,6 +2,7 @@
 
 import { useTopArtist } from "@/src/lib/hooks/artist/use-top-artist";
 import { TrendingUp, Play } from "lucide-react";
+import PlayButton from "../play-button";
 
 export default function TopArtist() {
   const { data: artist, isLoading, isError } = useTopArtist();
@@ -37,9 +38,7 @@ export default function TopArtist() {
       </h2>
 
       <div className="flex items-center gap-4">
-        <button className="bg-white text-black p-4 rounded-full hover:scale-110 transition-transform shadow-xl">
-          <Play fill="black" size={20} />
-        </button>
+        <PlayButton variant="primary" />
         <div className="flex flex-col">
           <span className="font-black text-xl leading-none">
             {artist.plays}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Period, Track } from "@/src/models";
 import useTopTracks from "@/src/lib/hooks/track/use-top-tracks";
 import Button from "../../ui/button";
+import PlayButton from "../play-button";
 
 export default function TopTracks() {
   const [period, setPeriod] = useState<Period>("week");
@@ -93,9 +94,7 @@ export default function TopTracks() {
                   replays
                 </p>
               </div>
-              <button className="opacity-0 group-hover:opacity-100 bg-white p-2.5 rounded-full transition-all hover:scale-110 shadow-lg">
-                <Play size={14} fill="black" className="text-black" />
-              </button>
+              <PlayButton variant="list" />
             </div>
           </div>
         ))}
