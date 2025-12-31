@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
 const playButtonVariants = cva(
-  "bg-white flex items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 shadow-xl",
+  "bg-white flex items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95 shadow-xl cursor-pointer",
   {
     variants: {
       variant: {

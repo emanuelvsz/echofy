@@ -4,11 +4,32 @@ import { Music, Users, Sparkles } from "lucide-react";
 import Button from "../../ui/button";
 import LogoTitle from "../../ui/logo-title";
 
-interface Props {
-  onLogin: () => void;
-}
+export default function LoginView() {
+  const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID ?? "";
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI ?? "";
 
-export default function LoginView({ onLogin }: Props) {
+  const SCOPES = [
+    "user-top-read",
+    "user-read-recently-played",
+    "user-library-read",
+    "user-read-private",
+    "user-read-email",
+  ].join(" ");
+
+  const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(
+    REDIRECT_URI
+  )}&scope=${encodeURIComponent(SCOPES)}`;
+
+  const handleLogin = () => {
+    if (!CLIENT_ID || !REDIRECT_URI) {
+      console.error("Configurações do Spotify ausentes no .env");
+      return;
+    }
+    window.location.href = AUTH_URL;
+  };
+
+  console.log("REDIRECT_URI:", REDIRECT_URI);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#3E2A47] blur-[120px] rounded-full" />
@@ -41,7 +62,7 @@ export default function LoginView({ onLogin }: Props) {
           variant="spotify"
           size="xl"
           fullWidth
-          onClick={onLogin}
+          onClick={handleLogin}
           className="gap-3"
         >
           <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">

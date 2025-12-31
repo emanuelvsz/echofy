@@ -1,25 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { Music, Users, Calendar, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Music, Users } from "lucide-react";
 import StatCard from "../components/ui/stat-card";
 import TopTracks from "../components/featured/top-tracks";
 import Header from "../components/layout/header";
 import TopArtist from "../components/featured/top-artist";
-import LoginView from "../components/auth/login-view";
 import Footer from "../components/layout/footer";
 import HistoryCard from "../components/featured/history-card";
 import DayVibeCard from "../components/featured/day-vibe-card";
+import { useAuth } from "../providers/auth-provider";
 
 export default function HomePage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading, router]);
 
-  if (!isLoggedIn) {
-    return <LoginView onLogin={handleLogin} />;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-white">
+        <p className="animate-pulse">Sintonizando sua vibe...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (
@@ -41,9 +53,7 @@ export default function HomePage() {
           color="bg-zinc-900"
         />
         <DayVibeCard />
-
         <HistoryCard />
-        {/* <FriendActivity /> */}
       </div>
       <Footer />
     </main>

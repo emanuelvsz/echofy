@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trophy, Play } from "lucide-react";
+import { Trophy } from "lucide-react";
 import Image from "next/image";
 import { Period, Track } from "@/src/models";
 import useTopTracks from "@/src/lib/hooks/track/use-top-tracks";
@@ -10,18 +10,14 @@ import PlayButton from "../play-button";
 
 export default function TopTracks() {
   const [period, setPeriod] = useState<Period>("week");
+  const { data: topTracks, isLoading, isError } = useTopTracks(3);
 
-  // Consumindo os dados do TanStack Query
-  const { data: topTracks, isLoading, isError } = useTopTracks();
-
-  // Estado de carregamento (Skeleton simples)
   if (isLoading) {
     return (
       <div className="md:col-span-2 bg-zinc-900 rounded-[2.5rem] p-8 border border-white/5 h-[600px] animate-pulse" />
     );
   }
 
-  // Estado de erro ou sem dados
   if (isError || !topTracks) {
     return (
       <div className="md:col-span-2 bg-zinc-900 rounded-[2.5rem] p-8 border border-white/5 flex items-center justify-center">
@@ -55,7 +51,6 @@ export default function TopTracks() {
       </div>
 
       <div className="space-y-4 flex-1">
-        {/* Agora mapeamos 'topTracks' que vem da API */}
         {topTracks[period]?.map((track: Track, i: number) => (
           <div
             key={track.id}
@@ -89,9 +84,9 @@ export default function TopTracks() {
 
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-xs font-black">{track.plays}</p>
+                <p className="text-xs font-black">{track.plays}%</p>
                 <p className="text-[10px] text-gray-600 uppercase font-bold">
-                  replays
+                  popular
                 </p>
               </div>
               <PlayButton variant="list" />

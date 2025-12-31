@@ -1,11 +1,11 @@
 "use client";
 
-import { useTopArtist } from "@/src/lib/hooks/artist/use-top-artist";
-import { TrendingUp, Play } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import PlayButton from "../play-button";
+import useTopArtists from "@/src/lib/hooks/artist/use-top-artist";
 
 export default function TopArtist() {
-  const { data: artist, isLoading, isError } = useTopArtist();
+  const { data: artists, isLoading, isError } = useTopArtists(1);
 
   if (isLoading) {
     return (
@@ -13,7 +13,7 @@ export default function TopArtist() {
     );
   }
 
-  if (isError || !artist) {
+  if (isError || !artists) {
     return (
       <div className="md:col-span-2 md:row-span-2 h-[450px] bg-zinc-900 rounded-[3rem] flex items-center justify-center border border-red-500/20">
         <p className="text-gray-500">
@@ -34,17 +34,17 @@ export default function TopArtist() {
       </p>
 
       <h2 className="text-6xl font-black mb-6 tracking-tighter italic">
-        {artist.name}
+        {artists.month[0].name}
       </h2>
 
       <div className="flex items-center gap-4">
         <PlayButton variant="primary" />
         <div className="flex flex-col">
           <span className="font-black text-xl leading-none">
-            {artist.plays}
+            {artists.month[0].popularityPercentage}
           </span>
           <span className="text-[10px] uppercase font-bold text-white/60 tracking-tighter">
-            replays totais
+            de popularidade este mes
           </span>
         </div>
       </div>
