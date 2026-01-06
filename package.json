@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx nest build",
     "start": "next start",
+    "start:prod": "node dist/main.js",
     "lint": "eslint"
   },
   "dependencies": {
