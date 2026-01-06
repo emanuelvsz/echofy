@@ -29,25 +29,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const res = await fetch("https://b95da1783dd2.ngrok-free.app/api/me", {
-          credentials: "include",
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          },
-        });
+        const res = await fetch(
+          "https://echofy-backend-tau.vercel.app/api/me",
+          {
+            credentials: "include",
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
 
         if (res.ok) {
           const data = await res.json();
           setUser(data);
           sessionStorage.setItem("echofy_user", JSON.stringify(data));
-        } else {
-          sessionStorage.removeItem("echofy_user");
+        } else if (res.status === 401) {
+          handleAuthFailure();
         }
       } catch (error) {
         console.error("Erro ao validar sessão:", error);
+        handleAuthFailure();
       } finally {
         setLoading(false);
       }
+    };
+
+    const handleAuthFailure = () => {
+      setUser(null);
+      sessionStorage.removeItem("echofy_user");
     };
 
     checkUser();

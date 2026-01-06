@@ -10,8 +10,8 @@ const StorageController = {
 
 export const BackendClient = axios.create({
   baseURL:
-    process.env.NEXT_PUBLIC_API_URL || "https://b95da1783dd2.ngrok-free.app",
-  withCredentials: true, 
+    process.env.NEXT_PUBLIC_API_URL || "https://echofy-backend-tau.vercel.app",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     "ngrok-skip-browser-warning": "true",

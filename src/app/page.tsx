@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Music, Users } from "lucide-react";
 import StatCard from "../components/ui/stat-card";
@@ -11,9 +11,13 @@ import Footer from "../components/layout/footer";
 import HistoryCard from "../components/featured/history-card";
 import DayVibeCard from "../components/featured/day-vibe-card";
 import { useAuth } from "../providers/auth-provider";
+import { useOnLoopTrack } from "../lib/hooks/track/use-on-loop-track";
+import HistoryModal from "../components/featured/history-modal";
 
 export default function HomePage() {
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const { user, loading } = useAuth();
+  const { data: onLoopTrack, isLoading: isLoadingLoop } = useOnLoopTrack();
   const router = useRouter();
 
   useEffect(() => {
@@ -40,11 +44,15 @@ export default function HomePage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <TopArtist />
         <TopTracks />
+
         <StatCard
           title="Música em Loop"
-          value="Not Like Us"
+          value={
+            isLoadingLoop ? "Carregando..." : onLoopTrack?.title || "Sem dados"
+          }
           icon={Music}
           color="bg-zinc-900"
+          cover={onLoopTrack?.cover}
         />
         <StatCard
           title="Amigos Online"
@@ -53,9 +61,13 @@ export default function HomePage() {
           color="bg-zinc-900"
         />
         <DayVibeCard />
-        <HistoryCard />
+        <HistoryCard onClick={() => setIsHistoryOpen(true)} />
       </div>
       <Footer />
+      <HistoryModal
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+      />
     </main>
   );
 }

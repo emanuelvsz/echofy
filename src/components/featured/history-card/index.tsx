@@ -1,8 +1,15 @@
 import { ArrowRight, Calendar } from "lucide-react";
 
-const HistoryCard = () => {
+interface Props {
+  onClick?: () => void; // Adicionamos a prop de clique
+}
+
+const HistoryCard = ({ onClick }: Props) => {
   return (
-    <div className="group cursor-pointer bg-orange-500 p-8 rounded-[2.5rem] flex flex-col items-start gap-4 text-orange-950 shadow-lg shadow-orange-500/20 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-orange-500/40 hover:brightness-105">
+    <div
+      onClick={onClick}
+      className="group cursor-pointer bg-orange-500 p-8 rounded-[2.5rem] flex flex-col items-start gap-4 text-orange-950 shadow-lg shadow-orange-500/20 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-orange-500/40 hover:brightness-105"
+    >
       <Calendar
         size={32}
         strokeWidth={2.5}
